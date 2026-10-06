@@ -18,7 +18,13 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter")
+	implementation("org.springframework:spring-context")
+	implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
+	implementation("org.hibernate.orm:hibernate-core:7.4.11.Final")
+	implementation("org.postgresql:postgresql:42.7.13")
+	implementation("org.projectlombok:lombok:1.18.48")
+
+//	implementation("org.springframework.boot:spring-boot-starter")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
