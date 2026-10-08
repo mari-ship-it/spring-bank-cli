@@ -55,7 +55,7 @@ public class Account {
         return "Account {" +
                 "id = " + id +
                 ", userId = " + (user != null ? user.getId() : null) +
-                ", moneyAmount = " + (int) moneyAmount +
+                ", moneyAmount = " + moneyAmount +
                 '}';
     }
 

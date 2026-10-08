@@ -62,7 +62,6 @@ public class AccountCreate implements  OperationCommand{
                 } catch (Exception e) {
 
                     if (transaction != null) {
-                        System.out.println();
                         transaction.rollback();
                     }
                     System.out.println("\nFailed to create account id: " + idUserInput );
