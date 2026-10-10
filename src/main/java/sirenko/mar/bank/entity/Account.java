@@ -2,6 +2,8 @@ package sirenko.mar.bank.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "account")
 public class Account {
@@ -15,13 +17,13 @@ public class Account {
     private User user;
 
     @Column(name = "moneyAmount")
-    private double moneyAmount;
+    private BigDecimal moneyAmount;
 
     public Account() {
 
     }
 
-    public Account (User user, double moneyAmount) {
+    public Account (User user, BigDecimal moneyAmount) {
         this.user = user;
         this.moneyAmount = moneyAmount;
     }
@@ -34,19 +36,15 @@ public class Account {
         return user;
     }
 
-    public double getMoneyAmount() {
+    public BigDecimal getMoneyAmount() {
         return moneyAmount;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setUser(User user) {
         this.user = user;
     }
 
-    public void setMoneyAmount(double moneyAmount) {
+    public void setMoneyAmount(BigDecimal moneyAmount) {
         this.moneyAmount = moneyAmount;
     }
 

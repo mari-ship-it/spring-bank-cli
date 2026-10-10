@@ -1,30 +1,30 @@
 package sirenko.mar.bank;
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 
 @Component
-//@Getter
 public class AccountProperties {
 
-    private final double defaultAmount;
-    private final double transferCommission;
+    private final BigDecimal defaultAmount;
+    private final BigDecimal transferCommission;
 
     public AccountProperties(
-            @Value("${account.default-amount}") double defaultAmount,
-            @Value("${account.transfer-commission}") double transferCommission
+            @Value("${account.default-amount}") BigDecimal defaultAmount,
+            @Value("${account.transfer-commission}") BigDecimal transferCommission
     ) {
         this.defaultAmount = defaultAmount;
         this.transferCommission = transferCommission;
     }
 
-    public double getDefaultAmount() {
+    public BigDecimal getDefaultAmount() {
         return this.defaultAmount;
     }
 
-    public double getTransferCommission() {
+    public BigDecimal getTransferCommission() {
         return this.transferCommission;
     }
 }

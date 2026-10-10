@@ -1,14 +1,10 @@
 package sirenko.mar.bank.operations.command;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
-import sirenko.mar.bank.AccountProperties;
-import sirenko.mar.bank.entity.Account;
-import sirenko.mar.bank.entity.User;
+
 import sirenko.mar.bank.operations.OperationCommand;
 import sirenko.mar.bank.operations.OperationsType;
+import sirenko.mar.bank.service.AccountService;
 
 import java.util.Scanner;
 
@@ -16,13 +12,11 @@ import java.util.Scanner;
 public class AccountCreate implements  OperationCommand{
 
     private final Scanner scanner;
-    private final SessionFactory sessionFactory;
-    private final AccountProperties accountProperties;
+    private final AccountService accountService;
 
-    public AccountCreate (Scanner scanner, SessionFactory sessionFactory, AccountProperties accountProperties) {
+    public AccountCreate (Scanner scanner, AccountService accountService) {
         this.scanner = scanner;
-        this.sessionFactory = sessionFactory;
-        this.accountProperties = accountProperties;
+        this.accountService = accountService;
     }
 
 
@@ -30,45 +24,25 @@ public class AccountCreate implements  OperationCommand{
     public void execute() {
 
         System.out.println("\nEnter the user ID for which to create an account:");
-        Long idUserInput;
+        Long idUser = null;
 
         try {
-            idUserInput = Long.parseLong(scanner.nextLine().trim());
+            idUser = Long.parseLong(scanner.nextLine().trim());
+
+            accountService.accountCreate(idUser);
+            System.out.println("\nAccount created\n");
 
         } catch (NumberFormatException e) {
             System.out.println("\nInvalid input! Please enter a valid numeric ID.");
-            return;
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+
+        } catch (Exception e) {
+            System.out.println("\nFailed to create account id: " + idUser);
+            System.out.println("Reason: " + e.getMessage());
         }
-        try (Session session = sessionFactory.openSession()) {
-            User user = session.find(User.class, idUserInput);
 
-            if (user == null) {
-
-                System.out.println("\nNo user with this Id exists, id: " + idUserInput);
-
-            } else {
-
-                Transaction transaction = null;
-                try {
-                    transaction = session.beginTransaction();
-
-                    Account account = new Account(user, accountProperties.getDefaultAmount());
-                    user.addAccount(account);
-
-                    System.out.println("\nAccount created\n");
-
-                    transaction.commit();
-
-                } catch (Exception e) {
-
-                    if (transaction != null) {
-                        transaction.rollback();
-                    }
-                    System.out.println("\nFailed to create account id: " + idUserInput );
-                    System.out.println("Reason: " + e.getMessage());
-                }
-            }
-        }
     }
 
     @Override
